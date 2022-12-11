@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"jsx": "react",
+		"outDir": "commonjs",
+		"target": "esNext",
+		"baseUrl": "./",
+		"lib": ["esNext", "dom"],
+		"esModuleInterop": true,
+		"types": ["babylonjs"],
+		"forceConsistentCasingInFileNames": true,
+		"noImplicitReturns": true,
+		"strict": true,
+		"moduleResolution": "node"
+	},
+	"exclude": ["node_modules"]
+}
