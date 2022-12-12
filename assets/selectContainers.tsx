@@ -1,84 +1,100 @@
 import Slider from "@mui/material/Slider";
+import Typography from "@mui/material/Typography";
 import * as React from "react";
-
-const marks = [{value: 0.1, label: '0.1',}, {value: 2, label: '2',}];
-const marks2 = [{value: 1, label: '1',}, {value: 10, label: '10',}];
+import {marksDimensions, marksSubdivisions} from "./constants";
+import {Mesh} from "babylonjs";
 
 function valuetext(value: number) {
-    return `${value}°C`;
+    return `${value}`;
 }
 
-export const getContainer: any = {
-    Plane: (mesh: any, handleChange: any) => {
+export default class GetContainer {
+    static Plane(mesh: Mesh, handleChange: (e: Event, type: string) => void) {
         const {x, y, z} = mesh?.scaling || {};
 
         return <div className={'planeContainer'}>
+            <Typography gutterBottom>
+                Width
+            </Typography>
             <Slider
                 aria-label="Width"
                 value={x}
-                onChange={(e) => handleChange(e, "width")}
+                onChange={(e: Event) => handleChange(e, "width")}
                 getAriaValueText={valuetext}
                 valueLabelDisplay="auto"
                 step={0.1}
-                marks={marks}
+                marks={marksDimensions}
                 min={0.1}
                 max={2.0}
             />
+            <Typography gutterBottom>
+                Height
+            </Typography>
             <Slider
                 aria-label="Height"
                 value={y}
-                onChange={(e) => handleChange(e, "height")}
+                onChange={(e: Event) => handleChange(e, "height")}
                 getAriaValueText={valuetext}
                 valueLabelDisplay="auto"
                 step={0.1}
-                marks={marks}
+                marks={marksDimensions}
                 min={0.1}
                 max={2.0}
             />
+            <Typography gutterBottom>
+                Depth
+            </Typography>
             <Slider
                 aria-label="Depth"
                 value={z}
-                onChange={(e) => handleChange(e, "depth")}
+                onChange={(e: Event) => handleChange(e, "depth")}
                 getAriaValueText={valuetext}
                 valueLabelDisplay="auto"
                 step={0.1}
-                marks={marks}
+                marks={marksDimensions}
                 min={0.1}
                 max={2.0}
             />
         </div>
-    },
-    Cylinder: (mesh: any, handleChange: any) => {
-        const {x, y, z} = mesh?.scaling || {};
+    }
+
+    static Cylinder(mesh: Mesh, handleChange: (e: Event, type: string) => void) {
+        const {x, y} = mesh?.scaling || {};
 
         return <div className={'cylinderContainer'}>
+            <Typography gutterBottom>
+                Height
+            </Typography>
             <Slider
                 aria-label="Height"
                 value={y}
-                onChange={(e) => handleChange(e, "height")}
+                onChange={(e: Event) => handleChange(e, "height")}
                 defaultValue={1}
                 getAriaValueText={valuetext}
                 valueLabelDisplay="auto"
                 step={0.1}
-                marks={marks}
+                marks={marksDimensions}
                 min={0.1}
                 max={2}
             />
+            <Typography gutterBottom>
+                Diameter
+            </Typography>
             <Slider
                 aria-label="Diameter"
                 value={x}
-                onChange={(e) => handleChange(e, "diameter")}
+                onChange={(e: Event) => handleChange(e, "diameter")}
                 defaultValue={1}
                 getAriaValueText={valuetext}
                 valueLabelDisplay="auto"
                 step={0.1}
-                marks={marks}
+                marks={marksDimensions}
                 min={0.1}
                 max={2}
             />
         </div>
-    },
-    IcoSphere: (mesh: any, handleChange: any, sphereVertexLength: number) => {
+    };
+    static IcoSphere(mesh: Mesh, handleChange: (e: Event, type: string) => void, sphereVertexLength: number) {
         const {x} = mesh?.scaling || {};
 
         let subdivisions = 0;
@@ -91,31 +107,36 @@ export const getContainer: any = {
         }
 
         return <div className={'sphereContainer'}>
+            <Typography gutterBottom>
+                Diameter
+            </Typography>
             <Slider
                 aria-label="diameterSphere"
                 value={x}
-                onChange={(e) => handleChange(e, "diameterSphere")}
+                onChange={(e: Event) => handleChange(e, "diameterSphere")}
                 defaultValue={1}
                 getAriaValueText={valuetext}
                 valueLabelDisplay="auto"
                 step={0.1}
-                marks={marks}
+                marks={marksDimensions}
                 min={0.1}
                 max={2}
             />
+            <Typography gutterBottom>
+                Subdivisions
+            </Typography>
             <Slider
                 aria-label="subdivisions"
                 value={subdivisions}
-                onChange={(e) => handleChange(e, "subdivisions")}
+                onChange={(e: Event) => handleChange(e, "subdivisions")}
                 defaultValue={10}
                 getAriaValueText={valuetext}
                 valueLabelDisplay="auto"
                 step={1}
-                marks={marks2}
+                marks={marksSubdivisions}
                 min={1}
                 max={10}
             />
         </div>
     }
-
 }

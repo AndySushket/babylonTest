@@ -2,13 +2,24 @@ import * as React from 'react';
 import {useEffect, useState} from 'react';
 import Popover from '@mui/material/Popover';
 import TextField from '@mui/material/TextField';
+import {Mesh} from 'babylonjs';
 
 import Button from '@mui/material/Button';
 
 import Typography from '@mui/material/Typography';
-import {getContainer} from "./selectContainers";
+import GetContainer from "./selectContainers";
 
-export default function EditMenu({open, top, left, mesh, handleClose, handleChange, applyBouncing}: any) {
+interface IEditMenu {
+    open: boolean;
+    top: number;
+    left: number;
+    mesh: Mesh | undefined;
+    handleClose: (event: {}, reason: "backdropClick" | "escapeKeyDown") => void;
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>, type: string) => void;
+    applyBouncing: (mesh: Mesh | undefined, amplitude: number, duration: number) => void
+}
+
+export default function EditMenu({open, top, left, mesh, handleClose, handleChange, applyBouncing}: IEditMenu) {
     const {x, y, z} = mesh?.scaling || {};
     const {length} = mesh?._geometry?._indices || {};
 
@@ -19,8 +30,8 @@ export default function EditMenu({open, top, left, mesh, handleClose, handleChan
     }, [x, y, z, length]);
 
     const containerName = mesh?.name || "Plane";
-
-    const container = getContainer[containerName](mesh, handleChange, length);
+    // @ts-ignore => const containerName: keyof typeof GetContainer = mesh?.name; Babylons Mesh.name issue
+    const container: React.ReactNode = GetContainer[containerName](mesh, handleChange, length);
 
     return (
         <Popover
@@ -50,11 +61,7 @@ export default function EditMenu({open, top, left, mesh, handleClose, handleChan
                                    setDuration(e.target.value)
                                }}/>
                     <Button
-                        onClick={() => {
-                            console.log("====should", amplitude, duration)
-                            applyBouncing(mesh, amplitude, duration);
-                        }}
-                    > Jump </Button>
+                        onClick={() => applyBouncing(mesh, amplitude, duration)}> Jump </Button>
                 </div>
             </Typography>
         </Popover>

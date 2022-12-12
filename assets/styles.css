@@ -11,19 +11,17 @@ body {
     height: 100%;
 }
 
+.planeContainer, .cylinderContainer,.sphereContainer {
+    padding: 10px;
+    width: 200px;
+}
+
 .planeContainer {
-    width: 200px;
-    height: 200px;
+    height: 260px;
 }
 
-.cylinderContainer {
-    width: 200px;
-    height: 150px;
-}
-
-.sphereContainer {
-    width: 200px;
-    height: 150px;
+.cylinderContainer, .sphereContainer {
+    height: 175px;
 }
 
 .bouncing-form{
