@@ -1,7 +1,8 @@
 import React from 'react';
-import { Engine, Scene, ArcRotateCamera, HemisphericLight, Vector3, MeshBuilder, Quaternion } from 'babylonjs';
+import {Engine, Scene, ArcRotateCamera, HemisphericLight, Vector3, MeshBuilder, Quaternion} from 'babylonjs';
 import 'babylonjs-loaders';
 import BasicCard from "./panel";
+
 class App extends React.Component<{}, {}> {
     private scene: any;
     private engine: any;
@@ -14,10 +15,19 @@ class App extends React.Component<{}, {}> {
         left: 0,
         top: 0,
         mesh: null,
+        startAnimation: false,
     }
+    private bouncedMesh: any;
+    private startAnimation: boolean;
+    private animationParameters: {
+        startTime: number,
+        amplitude: number,
+        duration: number,
+    };
 
 
     componentDidMount() {
+
         const canvas = this.refs?.canvas;
         if (!(canvas instanceof HTMLCanvasElement)) {
             throw new Error("Couldn't find a canvas. Aborting the demo");
@@ -29,15 +39,21 @@ class App extends React.Component<{}, {}> {
             })
 
             canvas.addEventListener("click", (e) => {
-                const {offsetX, offsetY} = e ;
+                const {offsetX, offsetY} = e;
                 const pick = this.scene.pick(offsetX, offsetY);
-                console.log("==========",this.state.openParameters)
+
                 if (!this.state.openParameters && pick.hit) {
                     this.setState({openParameters: true, left: offsetX, top: offsetY, mesh: pick.pickedMesh});
                 }
-
-                console.log(pick)
             });
+        }
+    }
+
+     bounce(timeFraction: number) {
+        for (let a = 0, b = 1; 1; a += b, b /= 2) {
+            if (timeFraction >= (7 - 4 * a) / 11) {
+                return -Math.pow((11 - 6 * a - 11 * timeFraction) / 4, 2) + Math.pow(b, 2)
+            }
         }
     }
 
@@ -51,7 +67,7 @@ class App extends React.Component<{}, {}> {
         this.scene = new Scene(this.engine);
 
         // Camera
-        const camera = new ArcRotateCamera("camera", Math.PI / 2, Math.PI / 2.5, 4, new Vector3(0, 0, 0), this.scene);
+        const camera = new ArcRotateCamera("camera", Math.PI / 2, Math.PI / 2.5, 4, new Vector3(0, 0, 5), this.scene);
         camera.attachControl(canvas, true);
 
         // Light
@@ -68,9 +84,24 @@ class App extends React.Component<{}, {}> {
 
         this.engine.runRenderLoop(() => {
             this.scene.render();
+
+            if (this.startAnimation) {
+                const mesh = this.bouncedMesh;
+                let {
+                    startTime,
+                    duration,
+                    amplitude,
+                } = this.animationParameters;
+                const timeFraction = (new Date().getTime() - startTime) / duration;
+
+                if ((new Date().getTime() - startTime) < duration) {
+                    mesh.position.y = amplitude * this.bounce(1 - timeFraction);
+                } else {
+                    this.startAnimation = false;
+                    mesh.position.y = 0;
+                }
+            }
         });
-
-
     }
 
     handleChange(e: any, type: string) {
@@ -121,8 +152,17 @@ class App extends React.Component<{}, {}> {
     }
 
     handleClose() {
-        console.log("closed")
         this.setState({openParameters: false})
+    }
+
+    applyBouncing(mesh: any, amplitude: number, duration: number) {
+        this.bouncedMesh = mesh;
+        this.startAnimation = true;
+        this.animationParameters = {
+            startTime: new Date().getTime(),
+            duration,
+            amplitude,
+        }
     }
 
     render(): React.ReactNode {
@@ -136,7 +176,8 @@ class App extends React.Component<{}, {}> {
                     top={top}
                     mesh={mesh}
                     handleClose={() => this.handleClose()}
-                    handleChange={(e: any, type: string)=> this.handleChange(e, type)}
+                    handleChange={(e: any, type: string) => this.handleChange(e, type)}
+                    applyBouncing={(mesh: any, amplitude: number, duration: number) => this.applyBouncing(mesh, amplitude, duration)}
                 />
             </div>);
     }

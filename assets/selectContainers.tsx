@@ -12,7 +12,7 @@ export const getContainer: any = {
     Plane: (mesh: any, handleChange: any) => {
         const {x, y, z} = mesh?.scaling || {};
 
-        return <div style={{width: "200px", height: "300px"}}>
+        return <div className={'planeContainer'}>
             <Slider
                 aria-label="Width"
                 value={x}
@@ -51,7 +51,7 @@ export const getContainer: any = {
     Cylinder: (mesh: any, handleChange: any) => {
         const {x, y, z} = mesh?.scaling || {};
 
-        return <div style={{width: "200px", height: "300px"}}>
+        return <div className={'cylinderContainer'}>
             <Slider
                 aria-label="Height"
                 value={y}
@@ -88,11 +88,9 @@ export const getContainer: any = {
             subdivisions++;
             nextPlus = 120 + nextPlus;
             verticesCounted += nextPlus;
-            console.log("here", sphereVertexLength, verticesCounted)
         }
-        console.log("here2", subdivisions, length, mesh)
 
-        return <div style={{width: "200px", height: "300px"}}>
+        return <div className={'sphereContainer'}>
             <Slider
                 aria-label="diameterSphere"
                 value={x}

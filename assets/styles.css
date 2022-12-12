@@ -1,0 +1,36 @@
+html,
+body {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.canvas, .App, #app {
+    width: 100%;
+    height: 100%;
+}
+
+.planeContainer {
+    width: 200px;
+    height: 200px;
+}
+
+.cylinderContainer {
+    width: 200px;
+    height: 150px;
+}
+
+.sphereContainer {
+    width: 200px;
+    height: 150px;
+}
+
+.bouncing-form{
+    display: flex;
+    flex-direction: column;
+}
+
+.bouncing-form > div{
+    margin: 3px 0;
+}
