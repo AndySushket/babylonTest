@@ -55,7 +55,7 @@ class App extends React.Component<{}, {}> {
         }
     }
 
-    bounce(timeFraction: number) {
+    bounce(timeFraction: number): number {
         for (let a = 0, b = 1; 1; a += b, b /= 2) {
             if (timeFraction >= (7 - 4 * a) / 11) { // 4 and 7 coefficient are used to control bounce and smooth y axis fall
                 return -Math.pow((11 - 6 * a - 11 * timeFraction) / 4, 2) + Math.pow(b, 2)// Math.pow(b, 2) to keep the same x axis for bounce
@@ -119,7 +119,7 @@ class App extends React.Component<{}, {}> {
         });
     }
 
-    handleChange(e: React.ChangeEvent<HTMLInputElement>, type: string) {
+    handleChange(e: React.ChangeEvent<HTMLInputElement>, type: string): void {
         const value = parseFloat(e.target.value);
         let {mesh} = this.state;
 

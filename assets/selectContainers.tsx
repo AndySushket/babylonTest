@@ -9,7 +9,7 @@ function valuetext(value: number) {
 }
 
 export default class selectContainer {
-    static Plane(mesh: Mesh, handleChange: (e: Event, type: string) => void) {
+    static Plane(mesh: Mesh, handleChange: (e: Event, type: string) => void): JSX.Element {
         const {x, y, z} = mesh?.scaling || {};
 
         return <div className={'planeContainer'}>
@@ -58,7 +58,7 @@ export default class selectContainer {
         </div>
     }
 
-    static Cylinder(mesh: Mesh, handleChange: (e: Event, type: string) => void) {
+    static Cylinder(mesh: Mesh, handleChange: (e: Event, type: string) => void): JSX.Element {
         const {x, y} = mesh?.scaling || {};
 
         return <div className={'cylinderContainer'}>
@@ -95,7 +95,7 @@ export default class selectContainer {
         </div>
     };
 
-    static IcoSphere(mesh: Mesh, handleChange: (e: Event, type: string) => void, sphereVertexLength: number) {
+    static IcoSphere(mesh: Mesh, handleChange: (e: Event, type: string) => void, sphereVertexLength: number): JSX.Element {
         const {x} = mesh?.scaling || {};
 
         let subdivisions = 0;

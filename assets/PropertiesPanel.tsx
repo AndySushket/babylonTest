@@ -57,7 +57,7 @@ export default function PropertyPanel({open, top, left, mesh, handleClose, handl
                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAmplitude(parseFloat(e.target.value))}/>
                     <TextField id="outlined-basic" label="Duration" type="number" variant="outlined" value={duration}
                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                   setDuration(parseFloat(e.target.value))
+                                   setDuration(parseFloat(e.target.value));
                                }}/>
                     <Button
                         onClick={() => applyBouncing(mesh, amplitude, duration)}> Jump </Button>
