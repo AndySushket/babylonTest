@@ -8,7 +8,7 @@ function valuetext(value: number) {
     return `${value}`;
 }
 
-export default class GetContainer {
+export default class selectContainer {
     static Plane(mesh: Mesh, handleChange: (e: Event, type: string) => void) {
         const {x, y, z} = mesh?.scaling || {};
 
@@ -94,6 +94,7 @@ export default class GetContainer {
             />
         </div>
     };
+
     static IcoSphere(mesh: Mesh, handleChange: (e: Event, type: string) => void, sphereVertexLength: number) {
         const {x} = mesh?.scaling || {};
 

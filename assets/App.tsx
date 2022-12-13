@@ -1,7 +1,7 @@
 import React from 'react';
 import {Engine, Scene, ArcRotateCamera, HemisphericLight, Vector3, MeshBuilder, Quaternion, Mesh} from 'babylonjs';
 import 'babylonjs-loaders';
-import BasicCard from "./panel";
+import PropertyPanel from "./PropertiesPanel";
 import {Nullable} from "babylonjs/types";
 import {PickingInfo} from "babylonjs/Collisions/pickingInfo";
 
@@ -45,7 +45,7 @@ class App extends React.Component<{}, {}> {
             })
 
             canvas.addEventListener("click", (e: MouseEvent) => {
-                const {offsetX, offsetY}: {offsetX: number, offsetY: number} = e;
+                const {offsetX, offsetY}: { offsetX: number, offsetY: number } = e;
                 const pick: Nullable<PickingInfo> | undefined = this.scene?.pick(offsetX, offsetY);
 
                 if (!this.state.openParameters && pick?.hit) {
@@ -55,7 +55,7 @@ class App extends React.Component<{}, {}> {
         }
     }
 
-     bounce(timeFraction: number) {
+    bounce(timeFraction: number) {
         for (let a = 0, b = 1; 1; a += b, b /= 2) {
             if (timeFraction >= (7 - 4 * a) / 11) { // 4 and 7 coefficient are used to control bounce and smooth y axis fall
                 return -Math.pow((11 - 6 * a - 11 * timeFraction) / 4, 2) + Math.pow(b, 2)// Math.pow(b, 2) to keep the same x axis for bounce
@@ -80,7 +80,7 @@ class App extends React.Component<{}, {}> {
         this.scene = new Scene(this.engine);
 
         // Camera
-        const camera: ArcRotateCamera = new ArcRotateCamera("camera", Math.PI / 2, Math.PI / 2.5, 4, new Vector3(0, 0, 5), this.scene);
+        const camera: ArcRotateCamera = new ArcRotateCamera("camera", Math.PI / 2, Math.PI / 2.5, 4, new Vector3(0, 0, 0), this.scene);
         camera.attachControl(canvas, true);
 
         // Light
@@ -106,7 +106,7 @@ class App extends React.Component<{}, {}> {
                         startTime,
                         duration,
                         amplitude,
-                    } = this.animationParameters || {startTime: 0, duration: 1,  amplitude: 0};
+                    } = this.animationParameters || {startTime: 0, duration: 1, amplitude: 0};
                     const timeFraction = (new Date().getTime() - startTime) / duration;
                     if ((new Date().getTime() - startTime) < duration) {
                         mesh.position.y = amplitude * this.bounce(1 - timeFraction);
@@ -153,7 +153,7 @@ class App extends React.Component<{}, {}> {
                     this.icosphere?.dispose();
                     this.icosphere = undefined;
                     this.createEcoSphere({subdivisions: value}, scale);
-
+                    mesh = this.icosphere;
                     break;
                 }
 
@@ -181,7 +181,7 @@ class App extends React.Component<{}, {}> {
         return (
             <div className="App">
                 <canvas ref="canvas" className="canvas"/>
-                <BasicCard
+                <PropertyPanel
                     open={openParameters}
                     left={left}
                     top={top}
